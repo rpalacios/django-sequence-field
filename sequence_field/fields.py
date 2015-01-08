@@ -20,13 +20,16 @@ class SequenceField(models.TextField):
 
         self.lazy = kwargs.pop('lazy', True)
 
+        
         try:
             self.key = kwargs.pop('key')
         except KeyError:
-            raise SequenceFieldException(
-               strings.SEQUENCE_FIELD_MISSING_KEY 
-            )
-
+            self.key = 'default_key'
+            #raise SequenceFieldException(
+            #   strings.SEQUENCE_FIELD_MISSING_KEY 
+            #)
+        
+        
         default_pattern = \
             sequence_field_settings.SEQUENCE_FIELD_DEFAULT_PATTERN
         self.pattern = kwargs.pop('pattern', default_pattern)

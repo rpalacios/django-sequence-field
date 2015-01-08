@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from django.db.utils import OperationalError
+from django.db.utils import OperationalError, ProgrammingError
 from sequence_field import utils
 from sequence_field import strings
 from sequence_field import constants
@@ -78,7 +78,7 @@ class Sequence(models.Model):
                 seq.template = template
                 seq.save()
             return seq
-        except OperationalError:
+        except (ProgrammingError, OperationalError):
             return None
 
 
@@ -95,5 +95,5 @@ class Sequence(models.Model):
         try:
             seq = Sequence.objects.get(key=key)
             return seq.template
-        except (OperationalError, Sequence.DoesNotExist):
+        except (ProgrammingError, OperationalError, Sequence.DoesNotExist):
             return default_template
