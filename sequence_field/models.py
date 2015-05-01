@@ -78,7 +78,7 @@ class Sequence(models.Model):
                 seq.template = template
                 seq.save()
             return seq
-        except (ProgrammingError, OperationalError):
+        except Exception as ex:
             return None
 
 
@@ -95,5 +95,5 @@ class Sequence(models.Model):
         try:
             seq = Sequence.objects.get(key=key)
             return seq.template
-        except (ProgrammingError, OperationalError, Sequence.DoesNotExist):
+        except Exception as ex:
             return default_template
